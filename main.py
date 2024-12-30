@@ -48,8 +48,8 @@ class GridWorld:
             delta = 0
             for x in range(self.grid_size):
                 for y in range(self.grid_size-1,-1,-1):
-                    if x == 0 and y == 2:
-                        continue
+                    # if x == 0 and y == 2:
+                    #     continue
                     v = value_function[x, y]
                     max_value = float('-inf')
                     best_action = None
@@ -78,8 +78,8 @@ class GridWorld:
             delta = 0
             for x in range(self.grid_size):
                 for y in range(self.grid_size):
-                    if x == 0 and y == 2:
-                        continue
+                    # if x == 0 and y == 2:
+                    #     continue
                     v = value_function[x, y]
                     action = policy[x, y]
                     expected_value = self.calculate_expected_value((x, y), action, value_function)
