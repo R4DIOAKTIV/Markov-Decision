@@ -99,6 +99,8 @@ class GridWorld:
 
         for x in range(self.grid_size):
             for y in range(self.grid_size):
+                if x == 0 and y == 2 or x == 0 and y == 0:
+                    continue
                 max_value = float('-inf')
                 best_action = None
 
