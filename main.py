@@ -17,7 +17,7 @@ class GridWorld:
         x, y = state
         return 0 <= x < self.grid_size and 0 <= y < self.grid_size
 
-    def get_next_state(self, state, action):
+    def get_next_state(self, state, action): # List of possible states and their probabilities
         x, y = state
         transitions = self.transition_probs[action]
         next_states = []
@@ -33,8 +33,7 @@ class GridWorld:
 
     def calculate_expected_value(self, state, action, value_function):
         next_states = self.get_next_state(state, action)
-        expected_value = 0.0
-
+        expected_value = 0.0    
         for (nx, ny), prob in next_states:
             # expected_value += prob *(self.reward_matrix[nx, ny] + self.discount_factor * value_function[nx, ny])
             expected_value += prob * value_function[nx, ny]
@@ -50,7 +49,7 @@ class GridWorld:
             delta = 0
             for x in range(self.grid_size):
                 for y in range(self.grid_size):
-                    if x == 0 and y == 2 or x == 0 and y == 0:
+                    if x == 0 and y == 2 or x == 0 and y == 0: # Terminal states
                         continue
                     v = value_function[x, y]
                     max_value = float('-inf')
