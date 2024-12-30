@@ -99,7 +99,7 @@ Function value_iteration():
 Policy iteration is split into two parts: policy evaluation and policy improvement. 
 
 #### Policy Evaluation
-The policy evaluation pseudocode is as follows:
+The policy evaluation loops many iterations of Markov's until the value function converges for a certain policy. The pseudocode is as follows:
 ```pseudo
 Function policy_evaluation(policy):
     initialize value_function as a zero matrix of grid_size and add terminal state rewards
@@ -120,7 +120,8 @@ Function policy_evaluation(policy):
 ```
 
 #### Policy Improvement
-The policy improvement pseudocode is as follows:
+The policy improvement step update the policy by choosing the action that will maximize the increase in the current value functions.
+The pseudocode is as follows:
 ```pseudo
 Function policy_improvement(value_function):
     Initialize policy as a zero matrix of size (grid_size, grid_size) for each state (x, y) in the grid:
@@ -141,7 +142,7 @@ Function policy_improvement(value_function):
 ```
 
 ### Policy Iteration
-The policy iteration combines the policy evaluation and policy improvement steps. The pseudocode is as follows:
+The policy iteration starts by initializing random policy then loops over the policy evaluation and policy improvement steps until the value function converges and no better policy is found. The pseudocode is as follows:
 ```pseudo
 Function policy_iteration():
     Initialize policy as a random policy
