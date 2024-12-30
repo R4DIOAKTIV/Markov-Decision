@@ -36,28 +36,30 @@ class GridWorld:
         expected_value = 0.0
 
         for (nx, ny), prob in next_states:
-            expected_value += prob *(self.reward_matrix[nx, ny] + self.discount_factor * value_function[nx, ny])
-            # expected_value += prob * value_function[nx, ny]
+            # expected_value += prob *(self.reward_matrix[nx, ny] + self.discount_factor * value_function[nx, ny])
+            expected_value += prob * value_function[nx, ny]
         return expected_value
 
     def value_iteration(self):
         value_function = np.zeros((self.grid_size, self.grid_size))
+        value_function[0, 2] = self.reward_matrix[0,2]  # Terminal state
+        value_function[0, 0] = self.reward_matrix[0,0]  # Terminal state
         policy = np.zeros((self.grid_size, self.grid_size), dtype=str)
 
         while True:
             delta = 0
             for x in range(self.grid_size):
-                for y in range(self.grid_size-1,-1,-1):
-                    # if x == 0 and y == 2:
-                    #     continue
+                for y in range(self.grid_size):
+                    if x == 0 and y == 2 or x == 0 and y == 0:
+                        continue
                     v = value_function[x, y]
                     max_value = float('-inf')
                     best_action = None
 
                     for action in self.actions:
-                        # expected_value = self.calculate_expected_value((x, y), action, value_function)
-                        # value = self.reward_matrix[x, y] + self.discount_factor * expected_value
-                        value = self.calculate_expected_value((x, y), action, value_function)
+                        expected_value = self.calculate_expected_value((x, y), action, value_function)
+                        value = self.reward_matrix[x, y] + self.discount_factor * expected_value
+                        # value = self.calculate_expected_value((x, y), action, value_function)
                         if value > max_value:
                             max_value = value
                             best_action = action
@@ -73,13 +75,14 @@ class GridWorld:
 
     def policy_evaluation(self, policy):
         value_function = np.zeros((self.grid_size, self.grid_size))
-
+        value_function[0, 2] = self.reward_matrix[0,2]  # Terminal state
+        value_function[0, 0] = self.reward_matrix[0,0]  # Terminal state
         while True:
             delta = 0
             for x in range(self.grid_size):
                 for y in range(self.grid_size):
-                    # if x == 0 and y == 2:
-                    #     continue
+                    if x == 0 and y == 2 or x == 0 and y == 0:
+                        continue
                     v = value_function[x, y]
                     action = policy[x, y]
                     expected_value = self.calculate_expected_value((x, y), action, value_function)
